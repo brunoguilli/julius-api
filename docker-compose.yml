@@ -1,0 +1,23 @@
+version: "3"
+services:
+  db:
+    image: "postgres:latest"
+    container_name: julius-api-DB
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: julius
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  app:
+    container_name: julius-api
+    restart: always
+    # build: . -> O "ponto" faz com que seja procurado um Dockerfile na raiz do projeto
+    # o Dockerfile determina como será o build do projeto
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
